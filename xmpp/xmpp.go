@@ -26,6 +26,8 @@ import (
 	"strconv"
 	"strings"
 	"sync"
+
+	"golang.org/x/net/html/charset"
 )
 
 const (
@@ -672,7 +674,7 @@ func makeInOut(conn io.ReadWriter, config *Config) (in *xml.Decoder, out io.Writ
 	} else {
 		in = xml.NewDecoder(conn)
 	}
-
+	in.CharsetReader = charset.NewReaderLabel
 	if config != nil && config.OutLog != nil {
 		out = io.MultiWriter(conn, config.OutLog)
 	} else {
